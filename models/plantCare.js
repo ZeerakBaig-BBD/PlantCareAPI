@@ -13,7 +13,7 @@ class PlantCare{
 
     async getPlantCare({plantId}) {
         return new Promise((resolve, reject) => {
-            connection.query(plantcareQueries.getPlantCare, [plantId] , (err, result, fields) => {
+            connection.query(plantcareQueries.getPlantCare, [plantId] , (err, result) => {
                 if (err) {
                     reject(err);
                 } else {
@@ -30,4 +30,4 @@ class PlantCare{
     }
 }
 
-module.exports = {PlantCare}
+module.exports = PlantCare

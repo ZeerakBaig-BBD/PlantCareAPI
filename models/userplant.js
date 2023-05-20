@@ -1,9 +1,9 @@
 const userplantQueries = require('../data-access/queries/userplantQueries');
 const connection = require('../data-access/db').con;
 
-exports.getUserPlants = ({userId}) => {
+exports.getUserPlants = (userId) => {
   return new Promise((resolve, reject) => {
-    connection.query(userplantQueries.getUserPlants, [userId], (err, result, fields) => {
+    connection.query(userplantQueries.getUserPlants, [userId], (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -15,7 +15,7 @@ exports.getUserPlants = ({userId}) => {
 
 exports.getUserPlantByName = (userId, plantName)  =>  {
   return new Promise((resolve, reject) => {
-    connection.query(userplantQueries.getUserPlants, [userId, plantName], (err, result, fields) => {
+    connection.query(userplantQueries.getUserPlants, [userId, plantName], (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -25,9 +25,9 @@ exports.getUserPlantByName = (userId, plantName)  =>  {
   });
 }
 
-exports.insertUserPlant = (NickName, {userId}, plantId) =>  {
+exports.insertUserPlant = (NickName, userId, plantId) =>  {
   return new Promise((resolve, reject) => {
-    connection.query(userplantQueries.insertUserPlant, [NickName, userId, plantId], (err, result, fields) => {
+    connection.query(userplantQueries.insertUserPlant, [NickName, userId, plantId], (err, result) => {
       if (err) {
         reject(err);
       } else {
@@ -39,7 +39,7 @@ exports.insertUserPlant = (NickName, {userId}, plantId) =>  {
 
 exports.removeUserPlant = (userId, plantNickName) =>  {
     return new Promise((resolve, reject) => {
-        connection.query(userplantQueries.removeUserPlant, [userId, plantNickName], (err, result, fields) => {
+        connection.query(userplantQueries.removeUserPlant, [userId, plantNickName], (err, result) => {
           if (err) {
             reject(err);
           } else {

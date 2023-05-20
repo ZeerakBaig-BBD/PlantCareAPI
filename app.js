@@ -1,13 +1,14 @@
 const express = require("express");
-const db = require("./data-access/db");
+const app = express();
 const swaggerJsDoc = require("swagger-jsdoc");
 const swaggerUi = require("swagger-ui-express");
 const userRoute = require("./routes/user");
-// const plantController = require("./controllers/plantController");
-// const plantCareController = require("./controllers/plantCareController");
-// const userPlantBridgeController = require("./controllers/userPlantBridgeController");
+const plantRoute = require("./routes/plant");
+const userplantRoute = require("./routes/userplant");
 
-const app = express();
+const db = require("./data-access/db");
+const config = require('./config/config.js');
+
 app.use(express.json());
 
 const swaggerOptions = {
@@ -23,42 +24,32 @@ const swaggerOptions = {
         name: "User",
         description: "API endpoints for managing users",
       },
-      //   {
-      //     name: "PlantCare",
-      //     description: "API endpoints for managing plants",
-      //   },
-      //   {
-      //     name: "UserPlantBridge",
-      //     description: "API endpoints for managing bridging table",
-      //   },
+      {
+        name: "Plant",
+        description: "API endpoints for managing plants",
+      },
+      {
+        name: "UserPlantBridge",
+        description: "API endpoints for managing user's plants",
+      },
     ],
   },
   apis: [
     "./routes/user.js",
-    // "./controllers/plantController.js",
-    // "./controllers/plantCareController.js",
-    // "./controllers/userPlantBridgeController.js",
+    "./routes/plant.js",
+    "./routes/userplant.js",
   ],
 };
 
 const swaggerSpec = swaggerJsDoc(swaggerOptions);
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+app.use("/v1/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-// Mount userController as middleware
-app.use("/users", userRoute);
-
-// Mount plantController as middleware
-// app.use("/plants", plantController);
-
-// // Mount plantCareController as middleware
-// app.use("/plantcare", plantCareController);
-
-// // Mount userPlantBridge as middleware
-// app.use("/bridge", userPlantBridgeController);
+app.use("/v1/users", userRoute);
+app.use("/v1/plants", plantRoute);
+app.use("/v1/user/plants", userplantRoute);
 
 // Start the server
-const port = 3000; // Specify the port number you want to use
-app.listen(port, () => {
+app.listen(config.port, () => {
   db.connect();
-  console.log(`Server is running on port ${port}`);
-});
+  console.log(`API started successfully.\nApp listening at http://localhost:${config.port}`);
+})

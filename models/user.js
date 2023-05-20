@@ -16,7 +16,7 @@ class User {
       connection.query(
         userQueries.registerUser,
         [username, email, passcode, city, province],
-        (err, result, fields) => {
+        (err, result) => {
           if (err) {
             reject(err);
           } else {
@@ -27,12 +27,12 @@ class User {
     });
   }
 
-  async validateUser(user) {
+  validateUser(user) {
     return new Promise((resolve, reject) => {
       connection.query(
         userQueries.validateUser,
         [user.username, user.passcode],
-        (err, result, fields) => {
+        (err, result) => {
           if (err) {
             reject(err);
           } else {
@@ -49,12 +49,12 @@ class User {
     });
   }
 
-  async updateUser(userId, { username, email, passcode, city, province }) {
+  updateUser(userId, { username, email, passcode, city, province }) {
     return new Promise((resolve, reject) => {
       connection.query(
         userQueries.updateUser,
         [username, email, passcode, city, province, userId],
-        (err, result, fields) => {
+        (err, result) => {
           if (err) {
             reject(err);
           } else {

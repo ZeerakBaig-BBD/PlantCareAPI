@@ -1,37 +1,118 @@
 const express = require("express");
 const router = express.Router();
-const UserController = require("../controllers/userController");
+const UserController = require("../controller/userController");
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     User:
+ *       type: object
+ *       properties:
+ *         userId:
+ *           type: integer
+ *           minimun: 1
+ *           description: User ID
+ *           required: true
+ *         username:
+ *           type: string
+ *           description: User username
+ *           required: true
+ *         email:
+ *           type: string
+ *           description: User email
+ *           format: email
+ *         password:
+ *           type: string
+ *           description: User password
+ *           required: true
+ *           writeOnly: true
+ *         city:
+ *           type: string
+ *           description: User city
+ *           required: true
+ *         province:
+ *           type: string
+ *           description: User province
+ */
+
+/**
+ * @swagger
+ * components:
+ *   schemas:
+ *     UserAlt:
+ *       type: object
+ *       properties:
+ *         username:
+ *           type: string
+ *           description: User username
+ *           required: true
+ *         email:
+ *           type: string
+ *           description: User email
+ *           format: email
+ *         password:
+ *           type: string
+ *           description: User password
+ *           required: true
+ *           writeOnly: true
+ *         city:
+ *           type: string
+ *           description: User city
+ *           required: true
+ *         province:
+ *           type: string
+ *           description: User province
+ */
 
 /**
  * @swagger
  * tags:
  *   name: User
  *   description: API endpoints for managing users login
- * /users:
+ * /v1/users/login:
  *   post:
  *     summary: Login
  *     tags: [User]
- *     parameters:
- *       - username: username
- *       - password: passcode
- *         in: path
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               username:
+ *                 type: string
+ *                 description: User's username
+ *               password:
+ *                 type: string
+ *                 description: User's password
+ *             required:
+ *               - username
+ *               - password
  *     responses:
  *       200:
- *         description: Success
+ *         description: Successful response
+ *         content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
+ *       404:
+ *         description: User not found.
  */
-router.post("/", UserController.Login);
+router.post("/login", UserController.Login);
 
 /**
  * @swagger
  * tags:
  *   name: User
  *   description: API endpoints for managing users
- * /users/{id}:
+ * /v1/users/update/{userId}:
  *   put:
  *     summary: Update a user by ID
  *     tags: [User]
  *     parameters:
- *       - name: id
+ *       - name: userId
  *         in: path
  *         required: true
  *         description: ID of the user
@@ -42,7 +123,7 @@ router.post("/", UserController.Login);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/UserAlt'
  *     responses:
  *       200:
  *         description: User updated
@@ -52,14 +133,14 @@ router.post("/", UserController.Login);
  *         description: User not found
  */
 
-router.put("/", UserController.updateUser);
+router.put("/update/:userId", UserController.updateUser);
 
 /**
  * @swagger
  * tags:
  *   name: User
  *   description: API endpoints for managing users
- * /users/register:
+ * /v1/users/register:
  *   post:
  *     summary: Create a new user
  *     tags: [User]
@@ -68,7 +149,10 @@ router.put("/", UserController.updateUser);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             $ref: '#/components/schemas/UserAlt'
+ *             exclude:
+ *               - userId
+ * 
  *     responses:
  *       201:
  *         description: User created
