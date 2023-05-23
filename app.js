@@ -5,6 +5,8 @@ const swaggerUi = require("swagger-ui-express");
 const userRoute = require("./routes/user");
 const plantRoute = require("./routes/plant");
 const userplantRoute = require("./routes/userplant");
+const redirectRoute = require("./routes/redirect");
+
 
 const db = require("./data-access/db");
 const config = require('./config/config.js');
@@ -47,6 +49,7 @@ app.use("/v1/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use("/v1/users", userRoute);
 app.use("/v1/plants", plantRoute);
 app.use("/v1/user/plants", userplantRoute);
+app.use("*", redirectRoute);
 
 // Start the server
 app.listen(config.port, () => {
