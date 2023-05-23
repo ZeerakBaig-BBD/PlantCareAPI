@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const UserController = require("../controller/userController");
+const authController = require('../controller/authenticationController');
 
 /**
  * @swagger
@@ -74,6 +75,13 @@ const UserController = require("../controller/userController");
  *   post:
  *     summary: Login
  *     tags: [User]
+ *     parameters:
+ *       - in: header
+ *         name: api-key
+ *         description: API Key
+ *         required: true
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -100,7 +108,7 @@ const UserController = require("../controller/userController");
  *       404:
  *         description: User not found.
  */
-router.post("/login", UserController.Login);
+router.post("/login", authController.validateKey, UserController.Login);
 
 /**
  * @swagger
@@ -112,6 +120,12 @@ router.post("/login", UserController.Login);
  *     summary: Update a user by ID
  *     tags: [User]
  *     parameters:
+ *       - in: header
+ *         name: api-key
+ *         description: API Key
+ *         required: true
+ *         schema:
+ *           type: string
  *       - name: userId
  *         in: path
  *         required: true
@@ -133,7 +147,7 @@ router.post("/login", UserController.Login);
  *         description: User not found
  */
 
-router.put("/update/:userId", UserController.updateUser);
+router.put("/update/:userId", authController.validateKey, UserController.updateUser);
 
 /**
  * @swagger
@@ -144,6 +158,13 @@ router.put("/update/:userId", UserController.updateUser);
  *   post:
  *     summary: Create a new user
  *     tags: [User]
+ *     parameters:
+ *       - in: header
+ *         name: api-key
+ *         description: API Key
+ *         required: true
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -159,6 +180,6 @@ router.put("/update/:userId", UserController.updateUser);
  *       400:
  *         description: Bad request
  */
-router.post("/register", UserController.postRegister);
+router.post("/register", authController.validateKey, UserController.postRegister);
 
 module.exports = router;

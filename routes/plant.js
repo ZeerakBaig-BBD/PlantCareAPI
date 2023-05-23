@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const PlantController = require('../controller/plantController');
+const authController = require('../controller/authenticationController');
+
 /**
  * @swagger
  * components:
@@ -45,6 +47,13 @@ const PlantController = require('../controller/plantController');
  *   get:
  *     summary: Get all plants
  *     tags: [Plant]
+ *     parameters:
+ *       - in: header
+ *         name: api-key
+ *         description: API Key
+ *         required: true
+ *         schema:
+ *           type: string
  *     responses:
  *       200:
  *         description: Successfully obtained all plants
@@ -56,7 +65,7 @@ const PlantController = require('../controller/plantController');
  *               $ref: '#/components/schemas/Plant'
  *         
  */
-router.get('/list', PlantController.getPlants);
+router.get('/list', authController.validateKey, PlantController.getPlants);
 
 // GET plant by Name
 /**
@@ -69,6 +78,12 @@ router.get('/list', PlantController.getPlants);
  *     summary: Get a plant by Name
  *     tags: [Plant]
  *     parameters:
+ *       - in: header
+ *         name: api-key
+ *         description: API Key
+ *         required: true
+ *         schema:
+ *           type: string
  *       - name: name
  *         in: path
  *         required: true
@@ -87,6 +102,6 @@ router.get('/list', PlantController.getPlants);
  *       404:
  *         description: Plant/s not found
  */
-router.get('/search/:name', PlantController.getByName);
+router.get('/search/:name', authController.validateKey, PlantController.getByName);
 
 module.exports = router;

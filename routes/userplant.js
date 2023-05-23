@@ -1,6 +1,8 @@
 const express = require('express');
 const router = express.Router();
 const UserPlantController = require('../controller/userplantController');
+const authController = require('../controller/authenticationController');
+
 /**
  * @swagger
  * components:
@@ -90,13 +92,19 @@ const UserPlantController = require('../controller/userplantController');
 /**
  * @swagger
  * tags:
- *   name: UserPlantBridge
- *   description: API endpoints for retrieving UserPlant
+ *   name: User Plants
+ *   description: API endpoints for managing user's plants
  * /v1/user/plants/{userId}:
  *   get:
- *     summary: Get plants of a user
- *     tags: [UserPlantBridge]
+ *     summary: User's plants
+ *     tags: [User Plants]
  *     parameters:
+ *       - in: header
+ *         name: api-key
+ *         description: API Key
+ *         required: true
+ *         schema:
+ *           type: string
  *       - name: userId
  *         in: path
  *         required: true
@@ -115,18 +123,25 @@ const UserPlantController = require('../controller/userplantController');
  *       404:
  *         description: User's plants not found
  */
-router.get('/:userId', UserPlantController.getUserPlants);
+router.get('/:userId', authController.validateKey, UserPlantController.getUserPlants);
 
 // POST new plant
 /**
  * @swagger
  * tags:
- *   name: UserPlantBridge
- *   description: API endpoints for managing plant care requirements
+ *   name: User Plants
+ *   description: API endpoints for managing user's plants
  * /v1/user/plants/add:
  *   post:
  *     summary: Create a new plant care requirement
- *     tags: [UserPlantBridge]
+ *     tags: [User Plants]
+ *     parameters:
+ *       - in: header
+ *         name: api-key
+ *         description: API Key
+ *         required: true
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -139,18 +154,25 @@ router.get('/:userId', UserPlantController.getUserPlants);
  *       400:
  *         description: Bad request
  */
-router.post('/add', UserPlantController.postAddPlant);
+router.post('/add', authController.validateKey, UserPlantController.postAddPlant);
 
 // DELETE plant
 /**
  * @swagger
  * tags:
- *   name: UserPlantBridge
- *   description: API endpoints for managing plant care requirements
+ *   name: User Plants
+ *   description: API endpoints for managing user's plants
  * /v1/user/plants/remove:
  *   post:
  *     summary: Delete a Plant care requirement by ID
- *     tags: [UserPlantBridge]
+ *     tags: [User Plants]
+ *     parameters:
+ *       - in: header
+ *         name: api-key
+ *         description: API Key
+ *         required: true
+ *         schema:
+ *           type: string
  *     requestBody:
  *       required: true
  *       content:
@@ -174,6 +196,6 @@ router.post('/add', UserPlantController.postAddPlant);
  *       404:
  *         description: User's plant not found
  */
-router.post('/remove', UserPlantController.deleteRemovePlant);
+router.post('/remove', authController.validateKey, UserPlantController.deleteRemovePlant);
 
 module.exports = router;
