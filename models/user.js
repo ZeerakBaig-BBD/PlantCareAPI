@@ -44,6 +44,7 @@ class User {
           if (err) {
             reject(err);
           } else {
+            let user;
             if (result.length != 0) {
               user = new User(result[0]);
               user.succeeded = true;
