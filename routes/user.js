@@ -98,7 +98,7 @@ router.post("/login", authController.validateKey, UserController.Login);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/UserAlt'
+ *             $ref: '#/components/schemas/UserRegister'
  * 
  *     responses:
  *       200:

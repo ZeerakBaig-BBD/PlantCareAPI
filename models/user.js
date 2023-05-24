@@ -10,7 +10,7 @@ class User {
 
   registerUser(email) {
     return new Promise((resolve, reject) => {
-      validateUser({email})
+      this.validateUser(email)
       .then(user => {
         if (user.succeeded === true) {
           resolve(user.succeeded);
