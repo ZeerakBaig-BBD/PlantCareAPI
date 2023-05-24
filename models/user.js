@@ -2,36 +2,44 @@ const userQueries = require("../data-access/queries/userQueries");
 const connection = require("../data-access/db").con;
 
 class User {
-  constructor({ userId, username, email, password, city, province }) {
+  constructor({ userId, email, city}) {
     this.userId = userId;
-    this.username = username;
     this.email = email;
-    this.passcode = password;
     this.city = city;
-    this.province = province;
   }
 
-  registerUser({ username, email, passcode, city, province }) {
+  registerUser(email) {
     return new Promise((resolve, reject) => {
-      connection.query(
-        userQueries.registerUser,
-        [username, email, passcode, city, province],
-        (err, result) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(result.affectedRows > 0 ? true : false);
-          }
+      validateUser({email})
+      .then(user => {
+        if (user.succeeded === true) {
+          resolve(user.succeeded);
+        } else {
+          connection.query(
+            userQueries.registerUser,
+            [email, 'Johannesburg'],
+            (err, result) => {
+              if (err) {
+                reject(err);
+              } else {
+                resolve(result.affectedRows > 0 ? true : false);
+              }
+            }
+          );
         }
-      );
+      })
+      .catch(err => {
+        reject(err);
+      })
+      
     });
   }
 
-  validateUser(user) {
+  validateUser({email}) {
     return new Promise((resolve, reject) => {
       connection.query(
         userQueries.validateUser,
-        [user.username, user.passcode],
+        [email],
         (err, result) => {
           if (err) {
             reject(err);
@@ -43,22 +51,6 @@ class User {
               user.succeeded = false;
             }
             resolve(user);
-          }
-        }
-      );
-    });
-  }
-
-  updateUser(userId, { username, email, passcode, city, province }) {
-    return new Promise((resolve, reject) => {
-      connection.query(
-        userQueries.updateUser,
-        [username, email, passcode, city, province, userId],
-        (err, result) => {
-          if (err) {
-            reject(err);
-          } else {
-            resolve(result.affectedRows > 0 ? true : false);
           }
         }
       );

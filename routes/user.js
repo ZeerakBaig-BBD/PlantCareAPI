@@ -15,55 +15,26 @@ const authController = require('../controller/authenticationController');
  *           minimun: 1
  *           description: User ID
  *           required: true
- *         username:
- *           type: string
- *           description: User username
- *           required: true
- *         email:
- *           type: string
- *           description: User email
- *           format: email
- *         password:
- *           type: string
- *           description: User password
- *           required: true
- *           writeOnly: true
  *         city:
  *           type: string
  *           description: User city
- *           required: true
- *         province:
- *           type: string
- *           description: User province
  */
 
 /**
  * @swagger
  * components:
  *   schemas:
- *     UserAlt:
+ *     UserRegister:
  *       type: object
  *       properties:
- *         username:
- *           type: string
- *           description: User username
- *           required: true
  *         email:
  *           type: string
  *           description: User email
  *           format: email
- *         password:
- *           type: string
- *           description: User password
- *           required: true
- *           writeOnly: true
  *         city:
  *           type: string
  *           description: User city
- *           required: true
- *         province:
- *           type: string
- *           description: User province
+ *           required: false
  */
 
 /**
@@ -89,15 +60,11 @@ const authController = require('../controller/authenticationController');
  *           schema:
  *             type: object
  *             properties:
- *               username:
+ *               email:
  *                 type: string
- *                 description: User's username
- *               password:
- *                 type: string
- *                 description: User's password
+ *                 description: User's email
  *             required:
- *               - username
- *               - password
+ *               - email
  *     responses:
  *       200:
  *         description: Successful response
@@ -109,45 +76,6 @@ const authController = require('../controller/authenticationController');
  *         description: User not found.
  */
 router.post("/login", authController.validateKey, UserController.Login);
-
-/**
- * @swagger
- * tags:
- *   name: User
- *   description: API endpoints for managing users
- * /v1/users/update/{userId}:
- *   put:
- *     summary: Update a user by ID
- *     tags: [User]
- *     parameters:
- *       - in: header
- *         name: api-key
- *         description: API Key
- *         required: true
- *         schema:
- *           type: string
- *       - name: userId
- *         in: path
- *         required: true
- *         description: ID of the user
- *         schema:
- *           type: integer
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/UserAlt'
- *     responses:
- *       200:
- *         description: User updated
- *       400:
- *         description: Bad request
- *       404:
- *         description: User not found
- */
-
-router.put("/update/:userId", authController.validateKey, UserController.updateUser);
 
 /**
  * @swagger
@@ -171,15 +99,15 @@ router.put("/update/:userId", authController.validateKey, UserController.updateU
  *         application/json:
  *           schema:
  *             $ref: '#/components/schemas/UserAlt'
- *             exclude:
- *               - userId
  * 
  *     responses:
+ *       200:
+ *         description: User already exists
  *       201:
  *         description: User created
  *       400:
  *         description: Bad request
  */
-router.post("/register", authController.validateKey, UserController.postRegister);
+router.post("/register", authController.validateKey, UserController.registerUser);
 
 module.exports = router;
