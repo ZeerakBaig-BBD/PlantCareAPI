@@ -6,10 +6,9 @@ exports.Login = (req, res) => {
   user
     .validateUser(user)
     .then((responseData) => {
-      console.log(responseData);
 
       if (responseData.succeeded === true) {
-        res.status(200).json(responseData.succeeded);
+        res.status(200).json(responseData);
       } else {
         res.status(404).json(responseData.succeeded );
       }
@@ -26,7 +25,6 @@ exports.registerUser = (req, res) => {
   user
     .registerUser(user)
     .then((responseData) => {
-      console.log(responseData);
       if (responseData === true) {
         res.status(201).json(responseData);
       } else {
