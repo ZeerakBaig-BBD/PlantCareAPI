@@ -10,7 +10,7 @@ class User {
 
   registerUser(email) {
     return new Promise((resolve, reject) => {
-      validateUser({email})
+      validateUser(email)
       .then(user => {
         if (user.succeeded === true) {
           resolve(user.succeeded);
@@ -35,7 +35,7 @@ class User {
     });
   }
 
-  validateUser({email}) {
+  validateUser(email) {
     return new Promise((resolve, reject) => {
       connection.query(
         userQueries.validateUser,
