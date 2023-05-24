@@ -8,30 +8,20 @@ class User {
     this.city = city;
   }
 
-  registerUser(email) {
+  registerUser({email}) {
     return new Promise((resolve, reject) => {
-      this.validateUser(email)
-      .then(user => {
-        if (user.succeeded === true) {
-          resolve(user.succeeded);
-        } else {
-          connection.query(
-            userQueries.registerUser,
-            [email, 'Johannesburg'],
-            (err, result) => {
-              if (err) {
-                reject(err);
-              } else {
-                resolve(result.affectedRows > 0 ? true : false);
-              }
-            }
-          );
+      connection.query(
+        userQueries.registerUser,
+        [email, 'Johannesburg'],
+        (err, result) => {
+          if (err) {
+            reject(err);
+          } else {
+            console.log(result);
+            resolve(result.affectedRows > 0 ? true : false);
+          }
         }
-      })
-      .catch(err => {
-        reject(err);
-      })
-      
+      );
     });
   }
 
@@ -45,11 +35,11 @@ class User {
             reject(err);
           } else {
             let user;
-            if (result.length != 0) {
+            if (result.length > 0) {
               user = new User(result[0]);
-              user.succeeded = true;
+              user = {succeeded: true};
             } else {
-              user.succeeded = false;
+              user = {succeeded: false};
             }
             resolve(user);
           }

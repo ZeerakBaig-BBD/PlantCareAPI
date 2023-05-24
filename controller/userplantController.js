@@ -43,9 +43,9 @@ exports.postAddPlant = (req, res) => {
   UserPlant.insertUserPlant(plantNickName, userId, plantId)
   .then(responseData => {
       if (responseData === true){
-        res.status(200).json(responseMessage);
+        res.status(200).send(responseData);
       } else {
-        res.status(400).json(errorMessage);
+        res.status(400).json(responseData);
       }
       
     })

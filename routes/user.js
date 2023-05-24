@@ -108,6 +108,6 @@ router.post("/login", authController.validateKey, UserController.Login);
  *       400:
  *         description: Bad request
  */
-router.post("/register", authController.validateKey, UserController.registerUser);
+router.post("/register", authController.validateKey, authController.validateUser, UserController.registerUser);
 
 module.exports = router;

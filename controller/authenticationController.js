@@ -1,4 +1,5 @@
 const auth = require('../models/authentication');
+const User = require("../models/user");
 
 exports.createKey = (req, res) => {
 
@@ -31,4 +32,21 @@ exports.validateKey = (req, res, next) => {
     } else {
         res.status(403).send(errorMessage);
     }
+};
+
+exports.validateUser = (req, res, next) => {
+    const user = new User(req.body);
+    user
+      .validateUser(user)
+      .then((responseData) => {
+        if (responseData.succeeded === true) {
+            res.status(200).send(responseData.succeeded)
+        } else {
+            next();
+        }
+      })
+      .catch(error => {
+        console.error('Error creating key :', error);
+        res.status(500).send('An error occurred while creating the API key');
+      });
 };
