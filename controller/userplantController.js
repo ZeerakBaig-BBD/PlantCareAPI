@@ -3,7 +3,6 @@ const UserPlant = require('../models/userplant');
 
 
 exports.getUserPlants = (req, res) => {
-  const errorMessage = "User's plants not found."
   const {userId} = req.params;
   
   UserPlant.getUserPlants(userId)
@@ -22,7 +21,7 @@ exports.getUserPlants = (req, res) => {
           } )
         });
       } else {
-        res.status(404).send(errorMessage);
+        res.status(404).send(false);
       }
       
   })
@@ -35,9 +34,6 @@ exports.getUserPlants = (req, res) => {
 
 
 exports.postAddPlant = (req, res) => {
-  const responseMessage = 'Successfully added!';
-  const errorMessage = 'Unferntunately failed adding plant!';
-
   const {plantNickName, userId, plantId} = req.body;
 
   UserPlant.insertUserPlant(plantNickName, userId, plantId)
@@ -116,16 +112,14 @@ exports.postAddPlant = (req, res) => {
 
 
 exports.deleteRemovePlant = (req, res) => {
-  const responseMessage = 'Successfully removed!';
-  const errorMessage = 'Unferntunately failed removing plant!';
   const { userId, plantNickName } = req.body;
 
   UserPlant.removeUserPlant(userId, plantNickName)
   .then(responseData => {
       if (responseData === true){
-          res.status(200).send(responseMessage);
+          res.status(200).send(responseData);
       } else{
-          res.status(404).send(errorMessage);
+          res.status(404).send(responseData);
       }
       
     })
