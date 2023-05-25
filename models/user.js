@@ -37,10 +37,11 @@ class User {
             let user;
             if (result.length > 0) {
               user = new User(result[0]);
-              user = {succeeded: true};
+              user.succeeded = true;
             } else {
-              user = {succeeded: false};
+              user.succeeded = false;
             }
+            console.log(user);
             resolve(user);
           }
         }

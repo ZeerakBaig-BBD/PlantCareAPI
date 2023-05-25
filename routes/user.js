@@ -25,7 +25,7 @@ const authController = require('../controller/authenticationController');
  * tags:
  *   name: User
  *   description: API endpoints for managing users
- * /v1/users/'login':
+ * /v1/users/login:
  *   post:
  *     summary: Create a new user
  *     tags: [User]
@@ -41,13 +41,21 @@ const authController = require('../controller/authenticationController');
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/User'
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 description: User's email
+ *             required:
+ *               - email
  * 
  *     responses:
  *       200:
- *         description: User already exists
- *       201:
- *         description: User created
+ *         description: Successful response
+ *         content:
+ *         application/json:
+ *           schema:
+ *             $ref: '#/components/schemas/User'
  *       400:
  *         description: Bad request
  */
