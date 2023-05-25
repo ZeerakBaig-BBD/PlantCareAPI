@@ -2,10 +2,11 @@ const userQueries = require("../data-access/queries/userQueries");
 const connection = require("../data-access/db").con;
 
 class User {
-  constructor({ userId, email, city}) {
+  constructor({ userId, email, city, succeeded}) {
     this.userId = userId;
     this.email = email;
     this.city = city;
+    this.succeeded = succeeded;
   }
 
   registerUser({email, city = "Johannesburg"}) {
