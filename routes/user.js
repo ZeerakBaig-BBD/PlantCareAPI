@@ -22,67 +22,10 @@ const authController = require('../controller/authenticationController');
 
 /**
  * @swagger
- * components:
- *   schemas:
- *     UserRegister:
- *       type: object
- *       properties:
- *         email:
- *           type: string
- *           description: User email
- *           format: email
- *         city:
- *           type: string
- *           description: User city
- *           required: false
- */
-
-/**
- * @swagger
- * tags:
- *   name: User
- *   description: API endpoints for managing users login
- * /v1/users/login:
- *   post:
- *     summary: Login
- *     tags: [User]
- *     parameters:
- *       - in: header
- *         name: api-key
- *         description: API Key
- *         required: true
- *         schema:
- *           type: string
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             type: object
- *             properties:
- *               email:
- *                 type: string
- *                 description: User's email
- *             required:
- *               - email
- *     responses:
- *       200:
- *         description: Successful response
- *         content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *       404:
- *         description: User not found.
- */
-router.post("/login", authController.validateKey, UserController.Login);
-
-/**
- * @swagger
  * tags:
  *   name: User
  *   description: API endpoints for managing users
- * /v1/users/register:
+ * /v1/users/'login':
  *   post:
  *     summary: Create a new user
  *     tags: [User]
@@ -98,7 +41,7 @@ router.post("/login", authController.validateKey, UserController.Login);
  *       content:
  *         application/json:
  *           schema:
- *             $ref: '#/components/schemas/UserRegister'
+ *             $ref: '#/components/schemas/User'
  * 
  *     responses:
  *       200:
@@ -108,6 +51,6 @@ router.post("/login", authController.validateKey, UserController.Login);
  *       400:
  *         description: Bad request
  */
-router.post("/register", authController.validateKey, authController.validateUser, UserController.registerUser);
+router.post("/login", authController.validateKey, authController.validateUser, UserController.registerUser, UserController.Login);
 
 module.exports = router;

@@ -40,7 +40,7 @@ exports.validateUser = (req, res, next) => {
       .validateUser(user)
       .then((responseData) => {
         if (responseData.succeeded === true) {
-            res.status(200).send(responseData.succeeded)
+            res.status(200).send(responseData)
         } else {
             next();
         }

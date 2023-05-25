@@ -8,11 +8,11 @@ class User {
     this.city = city;
   }
 
-  registerUser({email}) {
+  registerUser({email, city = "Johannesburg"}) {
     return new Promise((resolve, reject) => {
       connection.query(
         userQueries.registerUser,
-        [email, 'Johannesburg'],
+        [email, city],
         (err, result) => {
           if (err) {
             reject(err);

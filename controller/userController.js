@@ -20,13 +20,13 @@ exports.Login = (req, res) => {
 };
 
 // POST new user
-exports.registerUser = (req, res) => {
+exports.registerUser = (req, res, next) => {
   const user = new User(req.body);
   user
     .registerUser(user)
     .then((responseData) => {
       if (responseData === true) {
-        res.status(201).json(responseData);
+        next();
       } else {
         res.status(400).json(responseData);
       }
