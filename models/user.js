@@ -9,16 +9,16 @@ class User {
     this.succeeded = succeeded;
   }
 
-  registerUser({email, city = "Johannesburg"}) {
+  registerUser({email}) {
+    console.log(email);
     return new Promise((resolve, reject) => {
       connection.query(
         userQueries.registerUser,
-        [email, city],
+        [email, 'Johannesburg'],
         (err, result) => {
           if (err) {
             reject(err);
           } else {
-            console.log(result);
             resolve(result.affectedRows > 0 ? true : false);
           }
         }
@@ -35,14 +35,13 @@ class User {
           if (err) {
             reject(err);
           } else {
-            let user;
+            let user = {};
             if (result.length > 0) {
               user = new User(result[0]);
               user.succeeded = true;
             } else {
               user.succeeded = false;
             }
-            console.log(user);
             resolve(user);
           }
         }
