@@ -2,7 +2,7 @@ exports.getUserPlants = `SELECT plantNickName, plantId, userId FROM plantdb.user
 
 exports.getUserPlantByName = `SELECT plantNickName, plantId, userId FROM plantdb.userplantbridge WHERE userId = ? AND plantNickName = ?`;
 
-exports.insertUserPlant = `INSERT INTO plantdb.userplantbridge (plantNickName, plantId, userId) VALUES (?, ?, ?)`;
+exports.insertUserPlant = `INSERT INTO plantdb.userplantbridge (plantNickName, userId, plantId) VALUES (?, ?, ?)`;
 
 exports.removeUserPlant = `DELETE FROM plantdb.userplantbridge WHERE userId = ? AND plantNickName = ?`;
 
